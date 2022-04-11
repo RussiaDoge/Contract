@@ -1,16 +1,16 @@
-/**
- *Submitted for verification at BscScan.com on 2022-02-27
-*/
-
-/**
-🔥【RussiaDoge】🔥
-Supply : 100,000,000,000 【Hundred Billion]
-Buy/Sell 5% tax : 2% Marketing 2% Reflection 1% Liquidity 
-Starting Liquidity 50BNB
-Liquidity Initial to Locked 
-TG :https://t.me/RussiaDoge
-CN Chat :https://t.me/RussiaDogeCN
-*/
+//t.me/OrangeToken_info
+//ORANGETOKEN.INFO
+//ORANGETOKEN.INFO/NFT
+//T.ME/ORANGETOKEN_INFO
+//T.ME/ORANGETOKEN_NEWS
+//TWITTER.COM/ORANGETOKENINFO
+//
+//░█████╗░██████╗░░█████╗░███╗░░██╗░██████╗░███████╗
+//██╔══██╗██╔══██╗██╔══██╗████╗░██║██╔════╝░██╔════╝
+//██║░░██║██████╔╝███████║██╔██╗██║██║░░██╗░█████╗░░
+//██║░░██║██╔══██╗██╔══██║██║╚████║██║░░╚██╗██╔══╝░░
+//╚█████╔╝██║░░██║██║░░██║██║░╚███║╚██████╔╝███████╗
+//░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚══╝░╚═════╝░╚══════╝
 
 // SPDX-License-Identifier: NOLICENSE
 pragma solidity ^0.8.7;
@@ -116,7 +116,7 @@ library Address{
 }
 
 
-contract RDoge is Context, IERC20, Ownable {
+contract OrangeToken_info is Context, IERC20, Ownable {
     using Address for address payable;
     
     mapping (address => uint256) private _rOwned;
@@ -138,7 +138,7 @@ contract RDoge is Context, IERC20, Ownable {
     //Dont Dump
     mapping(address => uint256) private _lastSell;
     bool public coolDownEnabled = true;
-    uint256 public coolDownTime = 10 seconds;
+    uint256 public coolDownTime = 0 seconds;
     
     modifier antiBot(address account){
         require(tradingEnabled || allowedTransfer[account], "Trading not enabled yet");
@@ -151,40 +151,40 @@ contract RDoge is Context, IERC20, Ownable {
     uint8 private constant _decimals = 9;
     uint256 private constant MAX = ~uint256(0);
 
-    uint256 private _tTotal = 1e11 * 10**_decimals;
+    uint256 private _tTotal = 1e13 * 10**_decimals;
     uint256 private _rTotal = (MAX - (MAX % _tTotal));
 
-    uint256 public swapTokensAtAmount = 125_000_000 * 10**9;
-    uint256 public maxBuyLimit = 1_000_000_000 * 10**9;
-    uint256 public maxSellLimit = 1_000_000_000 * 10**9;
-    uint256 public maxWalletLimit = 2_000_000_000 * 10**9;
+    uint256 public swapTokensAtAmount = 10_000_000_000 * 10**9;
+    uint256 public maxBuyLimit = 100_000_000_000 * 10**9;
+    uint256 public maxSellLimit = 100_000_000_000 * 10**9;
+    uint256 public maxWalletLimit = 100_000_000_000 * 10**9;
     
     uint256 public genesis_block;
     
-    address public CallWallet = 0xF627aA5B8FF3ee420defA999fDc7d2a8beF8772A;
-    address private devWallet = 0xB0C6242c8111408c804183f2Af27e6B62ecFD3f1;
-    address public buyBurnAddLiQ = 0x5F2Bd6817c74D5FBA78Edf17E5B1Af81367E53fE;
+    address public MarketingWallet = 0xC225C8568eC839f7302dfdd72A0f7e9455a89022;
+    address public devWallet = 0xC225C8568eC839f7302dfdd72A0f7e9455a89022;
+    address public TreasuryDao = 0xC225C8568eC839f7302dfdd72A0f7e9455a89022;
 
-    string private constant _name = "RDoge";
-    string private constant _symbol = "RDoge";
+    string private constant _name = "OrangeToken_info";
+    string private constant _symbol = "ORANGE";
 
     struct Taxes {
         uint256 rfi;
         uint256 marketing;
         uint256 liquidity; 
         uint256 dev;
-        uint256 buyback;
+        uint256 TreasuryDao;
     }
 
-    Taxes public taxes = Taxes(2, 2, 1, 0, 0);
-    Taxes public sellTaxes = Taxes(2, 2, 1, 0, 0);
+    Taxes public taxes = Taxes(0, 0, 1, 0, 4);
+    Taxes public sellTaxes = Taxes(0, 0, 1, 0, 4);
 
     struct TotFeesPaidStruct{
         uint256 rfi;
         uint256 marketing;
         uint256 liquidity; 
         uint256 dev;
-        uint256 buyback;
+        uint256 TreasuryDao;
     }
     
     TotFeesPaidStruct public totFeesPaid;
@@ -196,13 +196,13 @@ contract RDoge is Context, IERC20, Ownable {
       uint256 rMarketing;
       uint256 rLiquidity;
       uint256 rDev;
-      uint256 rBuyback;
+      uint256 rTreasuryDao;
       uint256 tTransferAmount;
       uint256 tRfi;
       uint256 tMarketing;
       uint256 tLiquidity;
       uint256 tDev;
-      uint256 tBuyback;
+      uint256 tTreasuryDao;
     }
 
     event FeesChanged();
@@ -227,16 +227,16 @@ contract RDoge is Context, IERC20, Ownable {
         _rOwned[owner()] = _rTotal;
         _isExcludedFromFee[address(this)] = true;
         _isExcludedFromFee[owner()] = true;
-        _isExcludedFromFee[CallWallet] = true;
+        _isExcludedFromFee[MarketingWallet] = true;
         _isExcludedFromFee[devWallet] = true;
-        _isExcludedFromFee[buyBurnAddLiQ] = true;
+        _isExcludedFromFee[TreasuryDao] = true;
         
         allowedTransfer[address(this)] = true;
         allowedTransfer[owner()] = true;
         allowedTransfer[pair] = true;
-        allowedTransfer[CallWallet] = true;
+        allowedTransfer[MarketingWallet] = true;
         allowedTransfer[devWallet] = true;
-        allowedTransfer[buyBurnAddLiQ] = true;
+        allowedTransfer[TreasuryDao] = true;
 
         emit Transfer(address(0), owner(), _tTotal);
     }
@@ -365,13 +365,13 @@ contract RDoge is Context, IERC20, Ownable {
         return _isExcludedFromFee[account];
     }
 
-    function setTaxes(uint256 _rfi, uint256 _marketing, uint256 _liquidity, uint256 _dev, uint256 _buyback) public onlyOwner {
-       taxes = Taxes(_rfi,_marketing,_liquidity,_dev,_buyback);
+    function setTaxes(uint256 _rfi, uint256 _marketing, uint256 _liquidity, uint256 _dev, uint256 _TreasuryDao) public onlyOwner {
+       taxes = Taxes(_rfi,_marketing,_liquidity,_dev,_TreasuryDao);
         emit FeesChanged();
     }
     
-    function setSellTaxes(uint256 _rfi, uint256 _marketing, uint256 _liquidity, uint256 _dev, uint256 _buyback) public onlyOwner {
-       sellTaxes = Taxes(_rfi,_marketing,_liquidity,_dev,_buyback);
+    function setSellTaxes(uint256 _rfi, uint256 _marketing, uint256 _liquidity, uint256 _dev, uint256 _TreasuryDao) public onlyOwner {
+       sellTaxes = Taxes(_rfi,_marketing,_liquidity,_dev,_TreasuryDao);
         emit FeesChanged();
     }
 
@@ -411,21 +411,21 @@ contract RDoge is Context, IERC20, Ownable {
     }
     
     
-    function _takeBuyback(uint256 rBuyback, uint256 tBuyback) private {
-        totFeesPaid.buyback +=tBuyback;
+    function _takeTreasuryDao(uint256 rTreasuryDao, uint256 tTreasuryDao) private {
+        totFeesPaid.TreasuryDao +=tTreasuryDao;
 
         if(_isExcluded[address(this)])
         {
-            _tOwned[address(this)]+=tBuyback;
+            _tOwned[address(this)]+=tTreasuryDao;
         }
-        _rOwned[address(this)] +=rBuyback;
+        _rOwned[address(this)] +=rTreasuryDao;
     }
     
     
     function _getValues(uint256 tAmount, bool takeFee, bool isSell) private view returns (valuesFromGetValues memory to_return) {
         to_return = _getTValues(tAmount, takeFee, isSell);
         (to_return.rAmount, to_return.rTransferAmount, to_return.rRfi, to_return.rMarketing, to_return.rLiquidity) = _getRValues1(to_return, tAmount, takeFee, _getRate());
-        (to_return.rDev, to_return.rBuyback) = _getRValues2(to_return, takeFee, _getRate());
+        (to_return.rDev, to_return.rTreasuryDao) = _getRValues2(to_return, takeFee, _getRate());
         return to_return;
     }
 
@@ -443,8 +443,8 @@ contract RDoge is Context, IERC20, Ownable {
         s.tMarketing = tAmount*temp.marketing/100;
         s.tLiquidity = tAmount*temp.liquidity/100;
         s.tDev = tAmount*temp.dev/100;
-        s.tBuyback = tAmount*temp.buyback/100;
-        s.tTransferAmount = tAmount-s.tRfi-s.tMarketing-s.tLiquidity-s.tDev-s.tBuyback;
+        s.tTreasuryDao = tAmount*temp.TreasuryDao/100;
+        s.tTransferAmount = tAmount-s.tRfi-s.tMarketing-s.tLiquidity-s.tDev-s.tTreasuryDao;
         return s;
     }
 
@@ -459,20 +459,20 @@ contract RDoge is Context, IERC20, Ownable {
         rMarketing = s.tMarketing*currentRate;
         rLiquidity = s.tLiquidity*currentRate;
         uint256 rDev = s.tDev*currentRate;
-        uint256 rBuyback = s.tBuyback*currentRate;
-        rTransferAmount =  rAmount-rRfi-rMarketing-rLiquidity-rDev-rBuyback;
+        uint256 rTreasuryDao = s.tTreasuryDao*currentRate;
+        rTransferAmount =  rAmount-rRfi-rMarketing-rLiquidity-rDev-rTreasuryDao;
         return (rAmount, rTransferAmount, rRfi,rMarketing,rLiquidity);
     }
     
-    function _getRValues2(valuesFromGetValues memory s, bool takeFee, uint256 currentRate) private pure returns (uint256 rDev,uint256 rBuyback) {
+    function _getRValues2(valuesFromGetValues memory s, bool takeFee, uint256 currentRate) private pure returns (uint256 rDev,uint256 rTreasuryDao) {
 
         if(!takeFee) {
           return(0,0);
         }
 
         rDev = s.tDev*currentRate;
-        rBuyback = s.tBuyback*currentRate;
-        return (rDev,rBuyback);
+        rTreasuryDao = s.tTreasuryDao*currentRate;
+        return (rDev,rTreasuryDao);
     }
 
     function _getRate() private view returns(uint256) {
@@ -567,17 +567,17 @@ contract RDoge is Context, IERC20, Ownable {
         if(s.rRfi > 0 || s.tRfi > 0) _reflectRfi(s.rRfi, s.tRfi);
         if(s.rLiquidity > 0 || s.tLiquidity > 0) {
             _takeLiquidity(s.rLiquidity,s.tLiquidity);
-            emit Transfer(sender, address(this), s.tLiquidity + s.tMarketing + s.tDev+ s.tBuyback);
+            emit Transfer(sender, address(this), s.tLiquidity + s.tMarketing + s.tDev+ s.tTreasuryDao);
         }
         if(s.rMarketing > 0 || s.tMarketing > 0) _takeMarketing(s.rMarketing, s.tMarketing);
-        if(s.rBuyback > 0 || s.tBuyback > 0) _takeBuyback(s.rBuyback, s.tBuyback);
+        if(s.rTreasuryDao > 0 || s.tTreasuryDao > 0) _takeTreasuryDao(s.rTreasuryDao, s.tTreasuryDao);
         if(s.rDev > 0 || s.tDev > 0) _takeDev(s.rDev, s.tDev);
         emit Transfer(sender, recipient, s.tTransferAmount);
         
     }
 
     function swapAndLiquify(uint256 contractBalance, Taxes memory temp) private lockTheSwap{
-        uint256 denominator = (temp.liquidity + temp.marketing + temp.dev + temp.buyback) * 2;
+        uint256 denominator = (temp.liquidity + temp.marketing + temp.dev + temp.TreasuryDao) * 2;
         uint256 tokensToAddLiquidityWith = contractBalance * temp.liquidity / denominator;
         uint256 toSwap = contractBalance - tokensToAddLiquidityWith;
 
@@ -596,16 +596,16 @@ contract RDoge is Context, IERC20, Ownable {
 
         uint256 marketingAmt = unitBalance * 2 * temp.marketing;
         if(marketingAmt > 0){
-            payable(CallWallet).sendValue(marketingAmt);
+            payable(MarketingWallet).sendValue(marketingAmt);
         }
         uint256 devAmt = unitBalance * 2 * temp.dev;
         if(devAmt > 0){
             payable(devWallet).sendValue(devAmt);
         }
         
-        uint256 buybackAmt = unitBalance * 2 * temp.buyback;
-        if(buybackAmt > 0){
-            payable(buyBurnAddLiQ).sendValue(buybackAmt);
+        uint256 TreasuryDaoAmt = unitBalance * 2 * temp.TreasuryDao;
+        if(TreasuryDaoAmt > 0){
+            payable(TreasuryDao).sendValue(TreasuryDaoAmt);
         }
             
     }
@@ -659,16 +659,16 @@ contract RDoge is Context, IERC20, Ownable {
         }
     }
 
-    function updateCallWallet(address newWallet) external onlyOwner{
-        CallWallet = newWallet;
+    function updateMarketingWallet(address newWallet) external onlyOwner{
+        MarketingWallet = newWallet;
     }
     
     function updateDevWallet(address newWallet) external onlyOwner{
         devWallet = newWallet;
     }
     
-    function updatebuyBurnAddLiQ(address newWallet) external onlyOwner{
-        buyBurnAddLiQ = newWallet;
+    function updateTreasuryDao(address newWallet) external onlyOwner{
+        TreasuryDao = newWallet;
     }
 
     function updateSwapTokensAtAmount(uint256 amount) external onlyOwner{
